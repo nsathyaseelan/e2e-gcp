@@ -34,6 +34,7 @@ apps-gcp-deploy:
   stage: app-test
   script:
    - echo "app-deploy"
+   - kubectl apply -f https://raw.githubusercontent.com/shashank855/litmus/percona_test/apps/percona/deployers/deploy_percona_litmus.yaml
   
   dependencies:
     - openebs_gcp_deploy
@@ -45,3 +46,4 @@ cleanup-gcp:
   stage: cleanup
   script: 
     - ./script/gcp-cleanup
+  when: always
