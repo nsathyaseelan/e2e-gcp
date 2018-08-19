@@ -4,7 +4,7 @@ set -e
 echo $SDK_TOKEN > key.json
 gcloud auth activate-service-account --key-file=key.json
 gcloud config set project openebs-ci
-export GOOGLE_APPLICATION_CREDENTIALS="/itsmesingh.avneet/e2e-infrastructure/key.json"
+export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
 git clone https://github.com/harshvkarn/litmus.git
 cd litmus/
 git checkout script-timeout
