@@ -7,7 +7,7 @@ gcloud config set project openebs-ci
 export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
 git clone https://github.com/harshvkarn/litmus.git
 cd litmus/
-git checkout script-timeout
+git checkout gitlab-test
 cd k8s/gcp/k8s-installer/
 echo "creating vpc"
 ansible-playbook create-vpc.yml --extra-vars "project=openebs-ci vpc_name=openebs-e2e-test"
