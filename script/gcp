@@ -5,22 +5,26 @@ echo $SDK_TOKEN > key.json
 gcloud auth activate-service-account --key-file=key.json
 gcloud config set project openebs-ci
 export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
-git clone https://github.com/harshvkarn/litmus.git
+
+git clone https://github.com/atulabhi/litmus.git
+
 cd litmus/
-git checkout gitlab-test
+
+git checkout v0.7-RC1
+
 cd k8s/gcp/k8s-installer/
+
 echo "creating vpc"
+
 ansible-playbook create-vpc.yml --extra-vars "project=openebs-ci vpc_name=openebs-e2e-test"
+
 echo "creating cluster"
+
 ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 vpc_name=openebs-e2e-test k8s_version=1.11.1"
+
 mkdir /openebs/e2e-gcp/.kube
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/config
 wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
 kubectl apply -f rbac.yaml
 kubectl create configmap kubeconfig --from-file=/openebs/e2e-gcp/.kube/config -n litmus
 cat ~/logs/clusters > /openebs/e2e-gcp/.kube/clusters
-wget https://raw.githubusercontent.com/harshshekhar15/efk-stack/master/playbook/efk-vars.yml
-wget https://raw.githubusercontent.com/harshshekhar15/efk-stack/master/playbook/efk.yml
-wget https://raw.githubusercontent.com/harshshekhar15/efk-stack/master/playbook/get_url.yml
-ansible-playbook efk.yml --extra-vars "commit_id=$CI_COMMIT_SHA pipeline_id=$CI_PIPELINE_IID" 
-

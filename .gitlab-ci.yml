@@ -1,44 +1,39 @@
 stages:
-  - setup
-  - test
-  - app-test
+  - cluster-setup
+  - infra-setup
+  - stateful-apps-deploy
+  - chaos-test
   - cleanup
+  - deploy
 gcp-cluster:
   image: atulabhi/kops:v8
-  stage: setup
+  stage: cluster-setup
   script: 
-    - chmod u+x ./script/gcp
+    - chmod 775 ./script/gcp
     - ./script/gcp
   artifacts:
+    when: always
     paths:
       - .kube/
 
 openebs_gcp_deploy:
   image: atulabhi/kops:v8
-  stage: test
+  stage: infra-setup
   dependencies:
     - gcp-cluster
   script:
-    - echo "Deploying-Openebs"
-    - ls -a
-    - pwd
-    - mkdir ~/.kube-openebs
-    - cp  .kube/config ~/.kube-openebs/config
-    - kubectl config get-contexts
-    - wget https://raw.githubusercontent.com/ashishranjan738/testlit/master/openebsinstaller0.6.yaml
-    - kubectl apply -f openebsinstaller0.6.yaml
-    - wget https://raw.githubusercontent.com/ashishranjan738/testlit/master/storageclass_setup.yaml
-    - kubectl apply -f storageclass_setup.yaml
+    - echo "Setting up infrastructure"
+    - chmod 775 ./script/infra-setup
+    - ./script/infra-setup
   artifacts:
     paths:
       - .kube-openebs/
 
 apps-gcp-deploy:
-  stage: app-test
+  stage: stateful-apps-deploy
   script:
-   - echo "app-deploy"
-   - kubectl apply -f https://raw.githubusercontent.com/shashank855/litmus/percona_test/apps/percona/deployers/deploy_percona_litmus.yaml
-  
+    - chmod 775 ./script/stateful-app-deploy
+    - ./script/stateful-app-deploy
   dependencies:
     - openebs_gcp_deploy
      
@@ -48,6 +43,11 @@ cleanup-gcp:
     - gcp-cluster
   stage: cleanup
   script: 
-    - chmod u+x ./script/gcp-cleanup
+    - chmod 775 ./script/gcp-cleanup
     - ./script/gcp-cleanup
   when: always
+
+deploy:
+  stage: deploy
+  script:
+   - echo "deploy to production"
