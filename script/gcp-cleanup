@@ -15,4 +15,4 @@ git checkout gcp-k8s
 cd k8s/gcp/k8s-installer/
 echo "cleanup"
 ansible-playbook delete-k8s-cluster.yml
-ansible-playbook delete-vpc.yml --extra-vars "vpc_name=openebs-e2e-test"
+ansible-playbook delete-vpc.yml --extra-vars "vpc_name=openebs-e2e-test project=openebs-ci"
