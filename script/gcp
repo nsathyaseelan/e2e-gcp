@@ -28,6 +28,7 @@ ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nod
 
 mkdir /openebs/e2e-gcp/.kube
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/config
+cat ~/.kube/config > /openebs/e2e-gcp/.kube/admin.conf
 cat ~/logs/clusters > /openebs/e2e-gcp/.kube/clusters
 
 echo "Checking Cluster availability"
@@ -35,5 +36,5 @@ ansible-playbook check-cluster-availability.yml --extra-vars "nodes=3"
 kubectl get nodes
 wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
 kubectl apply -f rbac.yaml
-kubectl create configmap kubeconfig --from-file=/openebs/e2e-gcp/.kube/config -n litmus
+kubectl create configmap kubeconfig --from-file=/openebs/e2e-gcp/.kube/admin.conf -n litmus
 

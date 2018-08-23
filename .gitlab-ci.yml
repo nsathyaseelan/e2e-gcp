@@ -30,6 +30,7 @@ openebs_gcp_deploy:
 
 apps-gcp-deploy:
   stage: stateful-apps-deploy
+  image: atulabhi/kops:v8
   script:
     - chmod 775 ./script/stateful-app-deploy
     - ./script/stateful-app-deploy
@@ -38,6 +39,7 @@ apps-gcp-deploy:
      
 Litmus-Chaos:
   stage: chaos-test
+  image: atulabhi/kops:v8
   script:
    - echo " Introducing Chaos"
    - mkdir ~/.kube
