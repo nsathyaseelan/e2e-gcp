@@ -2,7 +2,8 @@
 set -e
 
 echo "Deploying statefulapps"
-
+mkdir ~/.kube
+cp .kube-openebs/config ~/.kube/config
 mkdir ~/logs
 cp .kube-openebs/clusters ~/logs
 
