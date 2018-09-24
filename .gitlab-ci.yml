@@ -28,12 +28,48 @@ openebs_gcp_deploy:
     paths:
       - .kube-openebs/
 
-apps-gcp-deploy:
+percona-gcp-deploy:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
-    - chmod 775 ./script/stateful-app-deploy
-    - ./script/stateful-app-deploy
+    - chmod 775 ./script/percona-app-deploy
+    - ./script/percona-app-deploy
+  dependencies:
+    - openebs_gcp_deploy
+
+cassandra-gcp-deploy:
+  stage: stateful-apps-deploy
+  image: atulabhi/kops:v8
+  script:
+    - chmod 775 ./script/cassandra-app-deploy
+    - ./script/cassandra-app-deploy
+  dependencies:
+    - openebs_gcp_deploy
+
+mongo-gcp-deploy:
+  stage: stateful-apps-deploy
+  image: atulabhi/kops:v8
+  script:
+    - chmod 775 ./script/mongo-app-deploy
+    - ./script/mongo-app-deploy
+  dependencies:
+    - openebs_gcp_deploy
+
+jenkins-gcp-deploy:
+  stage: stateful-apps-deploy
+  image: atulabhi/kops:v8
+  script:
+    - chmod 775 ./script/jenkins-app-deploy
+    - ./script/jenkins-app-deploy
+  dependencies:
+    - openebs_gcp_deploy
+
+postgres-gcp-deploy:
+  stage: stateful-apps-deploy
+  image: atulabhi/kops:v8
+  script:
+    - chmod 775 ./script/postgres-app-deploy
+    - ./script/percona-app-deploy
   dependencies:
     - openebs_gcp_deploy
      
@@ -44,7 +80,7 @@ Litmus-Chaos:
    - echo " Introducing Chaos"
    - mkdir ~/.kube
    - cp  .kube/config ~/.kube/config 
-   - kubectl create -f https://raw.githubusercontent.com/atulabhi/litmus/v0.7-RC1/apps/percona/chaos/openebs_volume_replica_failure/run_litmus_test.yaml
+   - kubectl create -f https://raw.githubusercontent.com/atulabhi/litmus/v0.7-RC1/apps/percona/chaos/openebs_volume_replica_failure/run_litmus_test.yml
    - chmod 755 ./script/chaos
    - ./script/chaos
   dependencies:
