@@ -69,7 +69,7 @@ postgres-gcp-deploy:
   image: atulabhi/kops:v8
   script:
     - chmod 775 ./script/postgres-app-deploy
-    - ./script/percona-app-deploy
+    - ./script/postgres-app-deploy
   dependencies:
     - openebs_gcp_deploy
      
