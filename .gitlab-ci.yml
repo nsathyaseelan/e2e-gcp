@@ -80,7 +80,7 @@ Litmus-Chaos:
     - chmod 775 ./script/app-chaos
     - ./script/app-chaos
   dependencies:
-    - gcp-cluster
+    - openebs_gcp_deploy
 
 cleanup-gcp:
   image: atulabhi/kops:v8
