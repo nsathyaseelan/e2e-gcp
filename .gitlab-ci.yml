@@ -28,7 +28,7 @@ openebs_gcp_deploy:
     paths:
       - .kube-openebs/
 
-percona-gcp-deploy:
+percona-jiva:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
@@ -37,7 +37,7 @@ percona-gcp-deploy:
   dependencies:
     - openebs_gcp_deploy
 
-cassandra-gcp-deploy:
+cassandra-jiva:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
@@ -46,7 +46,7 @@ cassandra-gcp-deploy:
   dependencies:
     - openebs_gcp_deploy
 
-mongo-gcp-deploy:
+mongo-jiva:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
@@ -55,7 +55,7 @@ mongo-gcp-deploy:
   dependencies:
     - openebs_gcp_deploy
 
-jenkins-gcp-deploy:
+jenkins-jiva:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
@@ -64,7 +64,7 @@ jenkins-gcp-deploy:
   dependencies:
     - openebs_gcp_deploy
 
-postgres-gcp-deploy:
+postgres-jiva:
   stage: stateful-apps-deploy
   image: atulabhi/kops:v8
   script:
