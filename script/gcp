@@ -12,24 +12,23 @@ export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
 
 # git checkout v0.7-RC1
 
-git clone https://github.com/harshvkarn/litmus.git
-cd litmus/
-git checkout test-only
+git clone https://github.com/openebs/litmus.git
 
-cd k8s/gcp/k8s-installer/
+cd litmus/k8s/gcp/k8s-installer/
 
 echo "creating vpc"
 
-ansible-playbook create-vpc.yml --extra-vars "project=openebs-ci vpc_name=openebs-e2e-test"
+ansible-playbook create-vpc.yml --extra-vars "project=openebs-ci"
 
 echo "creating cluster"
 
-ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 vpc_name=openebs-e2e-test k8s_version=1.11.1"
+ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1"
 
 mkdir /openebs/e2e-gcp/.kube
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/config
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/admin.conf
 cat ~/logs/clusters > /openebs/e2e-gcp/.kube/clusters
+cat ~/logs/vpc > /openebs/e2e-gcp/.kube/vpc
 
 echo "Checking Cluster availability"
 ansible-playbook check-cluster-availability.yml --extra-vars "nodes=3"
