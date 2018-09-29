@@ -9,10 +9,8 @@ export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
 echo "cleanup"
 mkdir ~/logs
 cp .kube/clusters ~/logs
-git clone https://github.com/harshvkarn/litmus.git 
-cd litmus/
-git checkout gcp-k8s
-cd k8s/gcp/k8s-installer/
+git clone https://github.com/openebs/litmus.git
+cd litmus/k8s/gcp/k8s-installer/
 echo "cleanup"
 ansible-playbook delete-k8s-cluster.yml
-ansible-playbook delete-vpc.yml --extra-vars "vpc_name=openebs-e2e-test project=openebs-ci"
+ansible-playbook delete-vpc.yml --extra-vars "project=openebs-ci"
