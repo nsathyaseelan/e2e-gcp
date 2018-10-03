@@ -5,6 +5,7 @@ stages:
   - apps-loadgen  
   - chaos-test
   - cleanup
+
 gcp-cluster:
   image: atulabhi/kops:v8
   stage: cluster-setup
@@ -83,17 +84,6 @@ cassandra-loadgen:
    - echo "jobs-Gcp-Started"
    - chmod 775 ./script/cassandra-loadgen
    - ./script/cassandra-loadgen
-
-
-mongodb-loadgen:
-  image: atulabhi/kops:v8
-  stage: apps-loadgen
-  dependencies:
-    - mongodb-jiva
-  script: 
-   - echo "jobs-Gcp-Started"
-   - chmod 775 ./script/mongodb-loadgen
-   - ./script/mongodb-loadgen
 
 percona-loadgen:
   image: atulabhi/kops:v8
