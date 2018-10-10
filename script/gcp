@@ -23,7 +23,8 @@ ansible-playbook create-vpc.yml --extra-vars "project=openebs-ci"
 echo "creating cluster"
 
 ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1"
-
+pwd
+ls
 mkdir /openebs/e2e-gcp/.kube
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/config
 cat ~/.kube/config > /openebs/e2e-gcp/.kube/admin.conf
