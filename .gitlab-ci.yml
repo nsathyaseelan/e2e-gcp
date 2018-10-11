@@ -25,7 +25,7 @@ gcp-cluster:
 
 ## Setup OpenEBS control plane
 
-openebs_gcp_deploy:
+openebs-gcp-deploy:
   image: atulabhi/kops:v8
   stage: PROVIDER-INFRA-SETUP
   dependencies:
