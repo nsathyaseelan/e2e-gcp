@@ -40,7 +40,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "%"
 ###################
 
 ## Derive the kubeconfig of the AWS cluster into the gitlab job runner pod
-## "aws-openebs" is a shared path for the gitlab runner passed as artifact by gitlab 
+## "gcp-openebs" is a shared path for the gitlab runner passed as artifact by gitlab
 
 echo "Setting up test dependencies.."
 
@@ -48,7 +48,6 @@ mkdir ~/.kube
 cp .kube-openebs/config ~/.kube/config
 mkdir ~/logs
 cp .kube-openebs/clusters ~/logs
-
 ## Clone the litmus repo, checkout the e2e branch, navigate to litmus root 
 
 #git clone https://github.com/atulabhi/litmus.git
@@ -62,6 +61,7 @@ task_delimiter;
 ############################
 ## LITMUS PRECONDITIONING ##
 ############################
+
 
 ## TODO: Add logic to replace job ENV (SC, PVC, LABEL, NS) based on run instance intent 
 ## TODO: Add logic to add ENV for run_instance_metadata/RunID

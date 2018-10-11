@@ -40,7 +40,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "%"
 ###################
 
 ## Derive the kubeconfig of the AWS cluster into the gitlab job runner pod
-## "aws-openebs" is a shared path for the gitlab runner passed as artifact by gitlab 
+## "gcp-openebs" is a shared path for the gitlab runner passed as artifact by gitlab
 
 echo "Setting up test dependencies.."
 

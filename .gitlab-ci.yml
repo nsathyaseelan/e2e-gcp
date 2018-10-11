@@ -29,9 +29,8 @@ openebs-gcp-deploy:
   stage: PROVIDER-INFRA-SETUP
   dependencies:
     - gcp-cluster
-  script:
-    - echo "Setting up infrastructure"
-    - ./script/provider/infra-setup
+  script: 
+   - ./script/provider/infra-setup
   artifacts:
     paths:
       - .kube-openebs/
@@ -49,7 +48,7 @@ openebs-gcp-deploy:
 ## PERCONA-JIVA
 percona-jiva-run/load/check 0:2:
   extends: .app_deploy_template
-  script:
+  script: 
    - ./script/apps/percona/deployer/percona-app-deploy-jiva
 
 percona-jiva-run/load/check 1:2:
@@ -189,11 +188,12 @@ tgt-disconnect-{mongo-cstor}:
   script:
    - ./script/apps/mongo/chaos/cstor/volume-target-network-delay
 
-cleanup-gcp:
+cleanup-aws:
+  when: always
   image: atulabhi/kops:v8
   dependencies:
     - gcp-cluster
   stage: CLUSTER-CLEANUP
   script: 
+    - chmod 755 ./script/gcp-cleanup
     - ./script/gcp-cleanup
-  when: always
