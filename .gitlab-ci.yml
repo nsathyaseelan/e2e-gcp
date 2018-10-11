@@ -188,7 +188,7 @@ tgt-disconnect-{mongo-cstor}:
   script:
    - ./script/apps/mongo/chaos/cstor/volume-target-network-delay
 
-cleanup-aws:
+cleanup-gcp:
   when: always
   image: atulabhi/kops:v8
   dependencies:
