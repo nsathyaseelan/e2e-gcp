@@ -51,7 +51,8 @@ openebs-gcp-deploy:
 ## PERCONA-JIVA
 percona-jiva-run/load/check 0:2:
   extends: .app_deploy_template
-  script: 
+  script:
+   - chmod 775 ./script/apps/percona/deployer/percona-app-deploy-jiva
    - ./script/apps/percona/deployer/percona-app-deploy-jiva
 
 percona-jiva-run/load/check 1:2:
@@ -59,12 +60,14 @@ percona-jiva-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/percona/workload/jiva/percona-app-workload-jiva
    - ./script/apps/percona/workload/jiva/percona-app-workload-jiva
 
 ## MONGO-JIVA
 mongo-jiva-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/mongo/deployer/mongo-app-deploy-jiva
    - ./script/apps/mongo/deployer/mongo-app-deploy-jiva
 
 mongo-jiva-run/load/check 1:2:
@@ -72,12 +75,14 @@ mongo-jiva-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/mongo/workload/jiva/mongo-app-workload-jiva
    - ./script/apps/mongo/workload/jiva/mongo-app-workload-jiva
 
 # POSTGRES-JIVA
 postgres-jiva-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/postgres/deployer/postgres-app-deploy-jiva
    - ./script/apps/postgres/deployer/postgres-app-deploy-jiva
 
 postgres-jiva-run/load/check 1:2:
@@ -85,12 +90,14 @@ postgres-jiva-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/postgres/workload/jiva/postgres-app-workload-jiva
    - ./script/apps/postgres/workload/jiva/postgres-app-workload-jiva
 
 # CASSANDRA-JIVA
 cassandra-jiva-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/cassandra/deployer/cassandra-app-deploy-jiva
    - ./script/apps/cassandra/deployer/cassandra-app-deploy-jiva
 
 cassandra-jiva-run/load/check 1:2:
@@ -98,18 +105,21 @@ cassandra-jiva-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/cassandra/workload/jiva/cassandra-app-workload-jiva
    - ./script/apps/cassandra/workload/jiva/cassandra-app-workload-jiva
 
 # JENKINS-JIVA
 jenkins-jiva-run/load/check:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/jenkins/deployer/jenkins-app-deploy-jiva
    - ./script/apps/jenkins/deployer/jenkins-app-deploy-jiva
 
 # PERCONA-CSTOR
 percona-cstor-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/percona/deployer/percona-app-deploy-cstor
    - ./script/apps/percona/deployer/percona-app-deploy-cstor
 
 percona-cstor-run/load/check 1:2:
@@ -117,12 +127,14 @@ percona-cstor-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/percona/workload/cstor/percona-app-workload-cstor
    - ./script/apps/percona/workload/cstor/percona-app-workload-cstor
 
 # MONGO-CSTOR
 mongo-cstor-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
+   - chmod 775 ./script/apps/mongo/deployer/mongo-app-deploy-cstor
    - ./script/apps/mongo/deployer/mongo-app-deploy-cstor
 
 mongo-cstor-run/load/check 1:2:
@@ -130,6 +142,7 @@ mongo-cstor-run/load/check 1:2:
   before_script: 
    - sleep 180
   script: 
+   - chmod 775 ./script/apps/mongo/workload/cstor/mongo-app-workload-cstor
    - ./script/apps/mongo/workload/cstor/mongo-app-workload-cstor
 
 ## Define job template for func test jobs  
@@ -142,11 +155,13 @@ mongo-cstor-run/load/check 1:2:
 app-replica-scale-{cassandra-jiva}:
   extends: .func_test_template #dependencies: cassandra-jiva
   script:
+   - chmod 775 ./script/apps/cassandra/functional/jiva/app-sts-replica-scale 
    - ./script/apps/cassandra/functional/jiva/app-sts-replica-scale 
 
 app-upgrade-deployment-{jenkins-jiva}:
   extends: .func_test_template #dependencies: jenkins-jiva
   script:
+   - chmod 775 ./script/apps/jenkins/functional/jiva/app-upgrade-deployment
    - ./script/apps/jenkins/functional/jiva/app-upgrade-deployment
 
 ## Define job template for chaos jobs 
@@ -159,31 +174,37 @@ app-upgrade-deployment-{jenkins-jiva}:
 repl-kill-{percona-jiva}:
   extends: .chaos_test_template #dependencies: percona-jiva
   script:
+   - chmod 775 ./script/apps/percona/chaos/jiva/volume-replica-failure
    - ./script/apps/percona/chaos/jiva/volume-replica-failure
 
 ctrl-kill-{mongo-jiva}:
   extends: .chaos_test_template #dependencies: mongo-jiva
   script:
+   - chmod 775 ./script/apps/mongo/chaos/jiva/volume-controller-failure
    - ./script/apps/mongo/chaos/jiva/volume-controller-failure
 
 repl-disconnect-{jenkins-jiva}:
   extends: .chaos_test_template #dependencies: jenkins-jiva
   script:
+   - chmod 775 ./script/apps/jenkins/chaos/jiva/volume-replica-network-delay
    - ./script/apps/jenkins/chaos/jiva/volume-replica-network-delay
 
 ctrl-disconnect-{postgres-jiva}:
   extends: .chaos_test_template #dependencies: postgres-jiva
   script:
+   - chmod 775 ./script/apps/postgres/chaos/jiva/volume-controller-network-delay
    - ./script/apps/postgres/chaos/jiva/volume-controller-network-delay
 
 tgt-kill-{percona-cstor}:
   extends: .chaos_test_template #dependencies: percona-cstor
   script:
+   - chmod 775 ./script/apps/percona/chaos/cstor/volume-target-failure
    - ./script/apps/percona/chaos/cstor/volume-target-failure
 
 tgt-disconnect-{mongo-cstor}:
   extends: .chaos_test_template #dependencies: mongo-cstor
   script:
+   - chmod 775 ./script/apps/mongo/chaos/cstor/volume-target-network-delay
    - ./script/apps/mongo/chaos/cstor/volume-target-network-delay
 
 cleanup-gcp:
