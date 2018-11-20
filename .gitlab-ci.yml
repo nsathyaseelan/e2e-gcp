@@ -225,6 +225,11 @@ ctrl-disconnect-{postgres-jiva}:
   script:
    - ./script/apps/postgres/chaos/jiva/volume-controller-network-delay
 
+app-kill-{mongo-jiva-xfs}:
+  extends: .chaos_test_template #dependencies: mongo-jiva
+  script:
+   - ./script/apps/mongo/chaos/jiva/application-pod-failure
+
 app-kill-{jenkins-cstor}:
   extends: .chaos_test_template #dependencies: jenkins-cstor
   script:
