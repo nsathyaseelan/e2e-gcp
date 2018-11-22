@@ -38,6 +38,18 @@ openebs-gcp-deploy:
     paths:
       - .kube-openebs/
 
+openebs-sc-deploy:
+  image: atulabhi/kops:v8
+  stage: PROVIDER-INFRA-SETUP
+  dependencies:
+    - gcp-cluster
+  script:
+   - chmod 775 ./script/provider/setup-sc
+   - ./script/provider/setup-sc
+  artifacts:
+    paths:
+      - .kube-openebs/
+
 ## Define a job template for app deployers
 
 .app_deploy_template:
@@ -151,6 +163,12 @@ jenkins-cstor-run/load/check:
   script:
    - ./script/apps/jenkins/deployer/jenkins-app-deploy-cstor 
 
+# PROMETHEUS-CSTOR
+prometheus-cstor-run/load/check:
+  extends: .app_deploy_template
+  script:
+   - ./script/apps/prometheus/deployer/prometheus-app-deploy-cstor
+
 ## Define job template for func test jobs  
 
 .func_test_template:
@@ -198,6 +216,12 @@ app-upgrade-deployment-{jenkins-cstor}:
   script:
    - ./script/apps/jenkins/functional/cstor/app-upgrade-deployment
 
+volume-memory-consumption-{memcheck-cstor}: #dependencies: prometheus-cstor
+  extends: .func_test_template
+  script:
+   - chmod 775 ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
+   - ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
+
 ## Define job template for chaos jobs 
 
 .chaos_test_template:
@@ -224,6 +248,11 @@ ctrl-disconnect-{postgres-jiva}:
   extends: .chaos_test_template #dependencies: postgres-jiva
   script:
    - ./script/apps/postgres/chaos/jiva/volume-controller-network-delay
+
+app-kill-{mongo-jiva-xfs}:
+  extends: .chaos_test_template #dependencies: mongo-jiva
+  script:
+   - ./script/apps/mongo/chaos/jiva/application-pod-failure
 
 app-kill-{jenkins-cstor}:
   extends: .chaos_test_template #dependencies: jenkins-cstor
