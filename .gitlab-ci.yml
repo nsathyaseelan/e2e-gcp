@@ -144,30 +144,30 @@ mongo-cstor-run/load/check 1:2:
   script: 
    - ./script/apps/mongo/workload/cstor/mongo-app-workload-cstor
 
-# CASSANDRA_CSTOR
-cassandra-cstor-run/load/check 0:2:
-  extends: .app_deploy_template
-  script:
-   - ./script/apps/cassandra/deployer/cassandra-app-deploy-cstor
-
-cassandra-cstor-run/load/check 1:2:
-  extends: .app_deploy_template
-  before_script:
-   - sleep 180
-  script:
-   - ./script/apps/cassandra/workload/cstor/cassandra-app-workload-cstor
-
-# JENKINS_CSTOR
-jenkins-cstor-run/load/check:
-  extends: .app_deploy_template
-  script:
-   - ./script/apps/jenkins/deployer/jenkins-app-deploy-cstor 
-
-# PROMETHEUS-CSTOR
-prometheus-cstor-run/load/check:
-  extends: .app_deploy_template
-  script:
-   - ./script/apps/prometheus/deployer/prometheus-app-deploy-cstor
+     ## CASSANDRA_CSTOR
+     #cassandra-cstor-run/load/check 0:2:
+     #  extends: .app_deploy_template
+     #  script:
+     #   - ./script/apps/cassandra/deployer/cassandra-app-deploy-cstor
+     #
+     #cassandra-cstor-run/load/check 1:2:
+     #  extends: .app_deploy_template
+     #  before_script:
+     #   - sleep 180
+     #  script:
+     #   - ./script/apps/cassandra/workload/cstor/cassandra-app-workload-cstor
+     #
+     ## JENKINS_CSTOR
+     #jenkins-cstor-run/load/check:
+     #  extends: .app_deploy_template
+     #  script:
+     #   - ./script/apps/jenkins/deployer/jenkins-app-deploy-cstor 
+     #
+     ## PROMETHEUS-CSTOR
+     #prometheus-cstor-run/load/check:
+     #  extends: .app_deploy_template
+     #  script:
+     #   - ./script/apps/prometheus/deployer/prometheus-app-deploy-cstor
 
 ## Define job template for func test jobs  
 
@@ -191,41 +191,41 @@ volume-data-integrity-{fio-jiva}:
   script:
    - ./script/apps/fio/tests/jiva/fio-volume-data-integrity-check
 
-volume-data-integrity-{fio-cstor}:
-  extends: .func_test_template
-  script: 
-   - ./script/apps/fio/tests/cstor/fio-volume-data-integrity-check
+     #volume-data-integrity-{fio-cstor}:
+     #  extends: .func_test_template
+     #  script: 
+     #   - ./script/apps/fio/tests/cstor/fio-volume-data-integrity-check
 
 k8s-snapshot-clone-creation-{percona-jiva}:
   extends: .func_test_template
   script:
    - ./script/apps/percona/functional/jiva/k8s-snapshot-clone
 
-jiva-replica-scaleup-{percona-jiva}:
-  extends: .func_test_template
-  script:
-   - ./script/apps/percona/functional/jiva/jiva-replica-scaleup   
+     #jiva-replica-scaleup-{percona-jiva}:
+     #  extends: .func_test_template
+     #  script:
+     #   - ./script/apps/percona/functional/jiva/jiva-replica-scaleup   
    
 volume-memory-consumption-{memcheck-jiva}:
   extends: .func_test_template
   script:
    - ./script/apps/memleak/tests/jiva/memory-consumption
 
-app-replica-scale-{cassandra-cstor}:
-  extends: .func_test_template #dependencies: cassandra-cstor
-  script:
-   - ./script/apps/cassandra/functional/cstor/app-sts-replica-scale
-
-app-upgrade-deployment-{jenkins-cstor}:
-  extends: .func_test_template #dependencies: jenkins-cstor
-  script:
-   - ./script/apps/jenkins/functional/cstor/app-upgrade-deployment
-
-volume-memory-consumption-{memcheck-cstor}: #dependencies: prometheus-cstor
-  extends: .func_test_template
-  script:
-   - chmod 775 ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
-   - ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
+     #app-replica-scale-{cassandra-cstor}:
+     #  extends: .func_test_template #dependencies: cassandra-cstor
+     #  script:
+     #   - ./script/apps/cassandra/functional/cstor/app-sts-replica-scale
+     #
+     #app-upgrade-deployment-{jenkins-cstor}:
+     #  extends: .func_test_template #dependencies: jenkins-cstor
+     #  script:
+     #   - ./script/apps/jenkins/functional/cstor/app-upgrade-deployment
+     #
+     #volume-memory-consumption-{memcheck-cstor}: #dependencies: prometheus-cstor
+     #  extends: .func_test_template
+     #  script:
+     #   - chmod 775 ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
+     #   - ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
 
 ## Define job template for chaos jobs 
 
@@ -254,15 +254,15 @@ ctrl-disconnect-{postgres-jiva}:
   script:
    - ./script/apps/postgres/chaos/jiva/volume-controller-network-delay
 
-app-kill-{mongo-jiva-xfs}:
-  extends: .chaos_test_template #dependencies: mongo-jiva
-  script:
-   - ./script/apps/mongo/chaos/jiva/application-pod-failure
-
-app-kill-{jenkins-cstor}:
-  extends: .chaos_test_template #dependencies: jenkins-cstor
-  script:
-   - ./script/apps/jenkins/chaos/cstor/application-pod-failure
+     #app-kill-{mongo-jiva-xfs}:
+     #  extends: .chaos_test_template #dependencies: mongo-jiva
+     #  script:
+     #   - ./script/apps/mongo/chaos/jiva/application-pod-failure
+     #
+     #app-kill-{jenkins-cstor}:
+     #  extends: .chaos_test_template #dependencies: jenkins-cstor
+     #  script:
+     #   - ./script/apps/jenkins/chaos/cstor/application-pod-failure
 
 tgt-kill-{percona-cstor}:
   extends: .chaos_test_template #dependencies: percona-cstor
