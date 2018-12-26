@@ -60,7 +60,7 @@ openebs-sc-deploy:
 
 ## Define the app deployer jobs
 
-## PERCONA-JIVA
+# PERCONA-JIVA
 percona-jiva-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
@@ -73,7 +73,7 @@ percona-jiva-run/load/check 1:2:
   script: 
    - ./script/apps/percona/workload/jiva/percona-app-workload-jiva
 
-## MONGO-JIVA
+# MONGO-JIVA
 mongo-jiva-run/load/check 0:2:
   extends: .app_deploy_template
   script: 
@@ -201,6 +201,16 @@ k8s-snapshot-clone-creation-{percona-jiva}:
   script:
    - ./script/apps/percona/functional/jiva/k8s-snapshot-clone
 
+Snapshot-rebuild-single-replica-{percona-cstor}:
+  extends: .func_test_template
+  script:
+   - ./script/apps/percona/functional/cstor/snapshot-rebuild-single-rep
+   
+Snapshot-rebuild-multiple-replica-{percona-cstor}:
+  extends: .func_test_template
+  script:
+   - ./script/apps/percona/functional/cstor/snapshot-rebuild-multiple-rep  
+
      #jiva-replica-scaleup-{percona-jiva}:
      #  extends: .func_test_template
      #  script:
@@ -227,7 +237,7 @@ volume-memory-consumption-{memcheck-jiva}:
      #   - chmod 775 ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
      #   - ./script/apps/prometheus/functional/cstor/memcheck/memory-consumption
 
-## Define job template for chaos jobs 
+# Define job template for chaos jobs 
 
 .chaos_test_template:
   image: atulabhi/kops:v8
