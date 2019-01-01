@@ -6,11 +6,11 @@ gcloud auth activate-service-account --key-file=key.json
 gcloud config set project openebs-ci
 export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
 
-# git clone https://github.com/atulabhi/litmus.git
+#---------------------Runner Cleanup-----------------------------------
 
-# cd litmus/
+kubectl get po -n gitlab-runner
+kubectl get pods -n gitlab-runner -o go-template --template '{{range .items}}{{.metadata.name}} {{.metadata.creationTimestamp}}{{"\n"}}{{end}}' | awk '$2 <= "'$(date -d'now-6 hours' -Ins --utc | sed 's/+0000/Z/')'" { print $1 }' | grep "runner.*project-4" | xargs --no-run-if-empty kubectl delete pod -n gitlab-runner
 
-# git checkout v0.7-RC1
 
 git clone https://github.com/openebs/litmus.git
 
