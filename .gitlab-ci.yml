@@ -11,7 +11,7 @@ stages:
   - CLUSTER-CLEANUP
 
 variables: 
-  utils_path: "/openebs/e2e-gcp/script/utils"
+  utils_path: "/builds/openebs/e2e-gcp/script/utils"
 
 ## Setup the kubernetes cluster
 

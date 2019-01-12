@@ -1,16 +1,11 @@
 #!/bin/bash
 set -e
 
+path=$(pwd)
 echo $SDK_TOKEN > key.json
 gcloud auth activate-service-account --key-file=key.json
 gcloud config set project openebs-ci
-export GOOGLE_APPLICATION_CREDENTIALS="/openebs/e2e-gcp/key.json"
-
-#---------------------Runner Cleanup-----------------------------------
-
-kubectl get po -n gitlab-runner
-kubectl get pods -n gitlab-runner -o go-template --template '{{range .items}}{{.metadata.name}} {{.metadata.creationTimestamp}}{{"\n"}}{{end}}' | awk '$2 <= "'$(date -d'now-6 hours' -Ins --utc | sed 's/+0000/Z/')'" { print $1 }' | grep "runner.*project-4" | xargs --no-run-if-empty kubectl delete pod -n gitlab-runner
-
+export GOOGLE_APPLICATION_CREDENTIALS="$path/key.json"
 
 git clone https://github.com/openebs/litmus.git
 
@@ -25,16 +20,17 @@ echo "creating cluster"
 ansible-playbook create-k8s-cluster.yml -vv --extra-vars "project=openebs-ci nodes=3 k8s_version=1.11.1"
 pwd
 ls
-mkdir /openebs/e2e-gcp/.kube
-cat ~/.kube/config > /openebs/e2e-gcp/.kube/config
-cat ~/.kube/config > /openebs/e2e-gcp/.kube/admin.conf
-cat ~/logs/clusters > /openebs/e2e-gcp/.kube/clusters
-cat ~/logs/vpc > /openebs/e2e-gcp/.kube/vpc
+mkdir $path/.kube
+cat ~/.kube/config > $path/.kube/config
+cat ~/.kube/config > $path/.kube/admin.conf
+cat ~/logs/clusters > $path/.kube/clusters
+cat ~/logs/vpc > $path/.kube/vpc
 
 echo "Checking Cluster availability"
 ansible-playbook check-cluster-availability.yml --extra-vars "nodes=3"
 kubectl get nodes
 wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
 kubectl apply -f rbac.yaml
-kubectl create configmap kubeconfig --from-file=/openebs/e2e-gcp/.kube/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/.kube/admin.conf -n litmus
+
 
